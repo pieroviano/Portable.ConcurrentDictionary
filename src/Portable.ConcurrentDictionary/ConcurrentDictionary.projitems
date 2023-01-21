@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>08609f05-d834-407e-98e7-f07e907a5878</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ConcurrentDictionary</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)System\Action.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\ArrayHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\Collections\Concurrent\ConcurrentDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\Collections\Generic\IReadOnlyCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\Collections\Generic\IReadOnlyDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\IntrospectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\PlatformHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\SR.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\Threading\Volatile.cs" />
+  </ItemGroup>
+</Project>

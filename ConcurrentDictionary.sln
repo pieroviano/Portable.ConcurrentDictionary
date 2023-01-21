@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32802.440
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB3FEC78-35B0-41B7-B03E-29E193C897FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2EF8436-CFA0-4646-8D0C-68B9CB689BA4}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		Directory.Build.props = Directory.Build.props
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7451738D-7268-450E-BFEB-3B2DA27AA342}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ConcurrentDictionary", "src\Portable.ConcurrentDictionary\ConcurrentDictionary.shproj", "{08609F05-D834-407E-98E7-F07E907A5878}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcurrentDictionary.Tests", "test\ConcurrentDictionary.Tests\ConcurrentDictionary.Tests.csproj", "{94D35582-45B6-4873-926E-4FC85660E4C8}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Portable.ConcurrentDictionary\ConcurrentDictionary.projitems*{08609f05-d834-407e-98e7-f07e907a5878}*SharedItemsImports = 13
+		src\Portable.ConcurrentDictionary\ConcurrentDictionary.projitems*{94d35582-45b6-4873-926e-4fc85660e4c8}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Debug|x86.Build.0 = Debug|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|ARM.Build.0 = Release|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{94D35582-45B6-4873-926E-4FC85660E4C8}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{08609F05-D834-407E-98E7-F07E907A5878} = {BB3FEC78-35B0-41B7-B03E-29E193C897FD}
+		{94D35582-45B6-4873-926E-4FC85660E4C8} = {7451738D-7268-450E-BFEB-3B2DA27AA342}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1723A875-B350-41C7-954C-571B8A703F70}
+	EndGlobalSection
+EndGlobal
