@@ -4,7 +4,7 @@
 /// <summary>
 /// Copied from https://github.com/SaladLab/NetLegacySupport/blob/master/core/Action/System/Action.cs
 /// </summary>
-#if SILVERLIGHT || NET20
+#if SILVERLIGHT || NET20 ||NET30 || NET35
 namespace System
 {
     // public delegate void Action<in T>(T obj);
