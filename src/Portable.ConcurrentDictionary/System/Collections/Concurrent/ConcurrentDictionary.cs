@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -85,7 +85,7 @@ namespace System.Collections.Concurrent
             //
             var valueType = typeof(TValue);
             var isAtomic =
-#if NET20 || NET35
+#if NET20 || NET30 || NET35
                 !valueType.IsValueType ||
 #else
                 !valueType.GetTypeInfo().IsValueType ||
@@ -764,7 +764,7 @@ namespace System.Collections.Concurrent
                 {
                     if (acquireLock)
                     {
-#if NET20 || NET35
+#if NET20 || NET30 || NET35
                         Monitor.Enter(tables._locks[lockNo]);
                         lockTaken = true;
 #else
@@ -1781,7 +1781,7 @@ namespace System.Collections.Concurrent
                 var lockTaken = false;
                 try
                 {
-#if NET20 || NET35
+#if NET20 || NET30 || NET35
                     Monitor.Enter(locks[i]);
                     lockTaken = true;
 #else
