@@ -1,4 +1,4 @@
-﻿namespace System.Collections.Generic
+namespace System.Collections.Generic
 {
 #if NET20 || NET30 || NET35 || NET40 || PORTABLE
     /// <summary>

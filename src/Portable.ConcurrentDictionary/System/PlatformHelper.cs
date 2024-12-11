@@ -1,4 +1,4 @@
-﻿
+
 namespace System
 {
     internal static class PlatformHelper

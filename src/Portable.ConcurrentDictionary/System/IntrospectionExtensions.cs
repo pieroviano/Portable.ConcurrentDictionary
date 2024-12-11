@@ -1,4 +1,4 @@
-﻿namespace System.Reflection
+namespace System.Reflection
 {
     /// <summary>
     /// https://github.com/castleproject/Core/blob/netcore/src/Castle.Core/Compatibility/IntrospectionExtensions.cs
