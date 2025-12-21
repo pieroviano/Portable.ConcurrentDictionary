@@ -1,11 +1,10 @@
 
-namespace System
+namespace System;
+
+internal static class PlatformHelper
 {
-    internal static class PlatformHelper
+    public static int ProcessorCount
     {
-        public static int ProcessorCount
-        {
-            get { return Environment.ProcessorCount; }
-        }
+        get { return Environment.ProcessorCount; }
     }
 }
