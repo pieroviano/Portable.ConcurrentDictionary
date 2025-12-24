@@ -1,5 +1,7 @@
 
-namespace System;
+using System;
+
+namespace ConcurrentDictionary.Tests.System;
 
 internal static class PlatformHelper
 {

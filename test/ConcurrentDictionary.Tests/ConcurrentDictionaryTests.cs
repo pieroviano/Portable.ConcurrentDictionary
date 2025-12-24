@@ -4,15 +4,14 @@
 
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ConcurrentDictionary.Tests.System.Collections.Concurrent;
 using Xunit;
+using IntegerConcurrentDictionary = ConcurrentDictionary.Tests.System.Collections.Concurrent.ConcurrentDictionary<int, int>;
 
-using IntegerConcurrentDictionary = System.Collections.Concurrent.ConcurrentDictionary<int, int>;
-
-namespace Portable.ConcurrentDictionary.Tests
+namespace ConcurrentDictionary.Tests
 {
     public class ConcurrentDictionaryTests
     {

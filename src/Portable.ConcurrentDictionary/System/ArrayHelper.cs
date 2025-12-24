@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace System;
+namespace ConcurrentDictionary.Tests.System;
 
 internal static class ArrayHelper
 {
