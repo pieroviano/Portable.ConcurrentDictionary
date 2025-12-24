@@ -578,7 +578,7 @@ namespace ConcurrentDictionary.Tests
             //  "TestExceptions:  FAILED.  TryAdd didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.ContainsKey(null));
+               () => dictionary.ContainsKey(null!));
             // "TestExceptions:  FAILED.  Contains didn't throw ANE when null key is passed");
 
             int item;
@@ -586,18 +586,18 @@ namespace ConcurrentDictionary.Tests
                () => dictionary.TryRemove(null, out item));
             //  "TestExceptions:  FAILED.  TryRemove didn't throw ANE when null key is passed");
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.TryGetValue(null, out item));
+               () => dictionary.TryGetValue(null!, out item));
             // "TestExceptions:  FAILED.  TryGetValue didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => { var x = dictionary[null]; });
+               () => { var x = dictionary[null!]; });
             // "TestExceptions:  FAILED.  this[] didn't throw ANE when null key is passed");
             Assert.Throws<KeyNotFoundException>(
                () => { var x = dictionary["1"]; });
             // "TestExceptions:  FAILED.  this[] TryGetValue didn't throw KeyNotFoundException!");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary[null] = 1);
+               () => dictionary[null!] = 1);
             // "TestExceptions:  FAILED.  this[] didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
@@ -683,7 +683,7 @@ namespace ConcurrentDictionary.Tests
         {
             IDictionary dictionary = new ConcurrentDictionary<string, int>();
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Add(null, 1));
+               () => dictionary.Add(null!, 1));
             // "TestIDictionary:  FAILED.  Add didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentException>(
@@ -695,20 +695,20 @@ namespace ConcurrentDictionary.Tests
             // "TestIDictionary:  FAILED.  Add didn't throw AE when incorrect value type is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Contains(null));
+               () => dictionary.Contains(null!));
             // "TestIDictionary:  FAILED.  Contain didn't throw ANE when null key is passed");
 
             //Test Remove
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Remove(null));
+               () => dictionary.Remove(null!));
             // "TestIDictionary:  FAILED.  Remove didn't throw ANE when null key is passed");
 
             //Test this[]
             Assert.Throws<ArgumentNullException>(
-               () => { var val = dictionary[null]; });
+               () => { var val = dictionary[null!]; });
             // "TestIDictionary:  FAILED.  this[] getter didn't throw ANE when null key is passed");
             Assert.Throws<ArgumentNullException>(
-               () => dictionary[null] = 0);
+               () => dictionary[null!] = 0);
             // "TestIDictionary:  FAILED.  this[] setter didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentException>(
@@ -756,7 +756,7 @@ namespace ConcurrentDictionary.Tests
 
             Assert.Throws<NotSupportedException>(() => { var obj = dictionary.SyncRoot; });
             // "TestICollection:  FAILED.  SyncRoot property didn't throw");
-            Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null, 0));
+            Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null!, 0));
             // "TestICollection:  FAILED.  CopyTo didn't throw ANE when null Array is passed");
             Assert.Throws<ArgumentOutOfRangeException>(() => dictionary.CopyTo(new object[] { }, -1));
             // "TestICollection:  FAILED.  CopyTo didn't throw AORE when negative index passed");
