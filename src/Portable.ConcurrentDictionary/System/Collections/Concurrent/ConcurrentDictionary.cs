@@ -1174,10 +1174,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:ICollection{T}"/> containing the keys in the
     /// <see cref="T:Dictionary{TKey,TValue}"/>.</value>
-    public ICollection<TKey> Keys
-    {
-        get { return GetKeys(); }
-    }
+    public ICollection<TKey> Keys => GetKeys();
 
     /// <summary>
     /// Gets an <see cref="T:IEnumerable{T}"/> containing the keys of
@@ -1185,10 +1182,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:IEnumerable{T}"/> containing the keys of
     /// the <see cref="T:IReadOnlyDictionary{TKey,TValue}"/>.</value>
-    IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys
-    {
-        get { return GetKeys(); }
-    }
+    IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => GetKeys();
 
     /// <summary>
     /// Gets a collection containing the values in the <see
@@ -1197,10 +1191,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <value>An <see cref="T:ICollection{T}"/> containing the values in
     /// the
     /// <see cref="T:Dictionary{TKey,TValue}"/>.</value>
-    public ICollection<TValue> Values
-    {
-        get { return GetValues(); }
-    }
+    public ICollection<TValue> Values => GetValues();
 
     /// <summary>
     /// Gets an <see cref="T:IEnumerable{T}"/> containing the values
@@ -1208,10 +1199,8 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:IEnumerable{T}"/> containing the
     /// values in the <see cref="T:IReadOnlyDictionary{TKey,TValue}"/>.</value>
-    IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values
-    {
-        get { return GetValues(); }
-    }
+    IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => GetValues();
+
     #endregion
 
     #region ICollection<KeyValuePair<TKey,TValue>> Members
@@ -1260,10 +1249,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// read-only; otherwise, false. For <see
     /// cref="T:Dictionary{TKey,TValue}"/>, this property always returns
     /// false.</value>
-    bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
-    {
-        get { return false; }
-    }
+    bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => false;
 
     /// <summary>
     /// Removes a key and value from the dictionary.
@@ -1297,7 +1283,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </remarks>
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((ConcurrentDictionary<TKey, TValue>)this).GetEnumerator();
+        return this.GetEnumerator();
     }
 
     #endregion
@@ -1373,10 +1359,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// fixed size; otherwise, false. For <see
     /// cref="T:ConcurrentDictionary{TKey,TValue}"/>, this property always
     /// returns false.</value>
-    bool IDictionary.IsFixedSize
-    {
-        get { return false; }
-    }
+    bool IDictionary.IsFixedSize => false;
 
     /// <summary>
     /// Gets a value indicating whether the <see
@@ -1386,10 +1369,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// read-only; otherwise, false. For <see
     /// cref="T:ConcurrentDictionary{TKey,TValue}"/>, this property always
     /// returns false.</value>
-    bool IDictionary.IsReadOnly
-    {
-        get { return false; }
-    }
+    bool IDictionary.IsReadOnly => false;
 
     /// <summary>
     /// Gets an <see cref="T:ICollection"/> containing the keys of the <see
@@ -1397,10 +1377,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:ICollection"/> containing the keys of the <see
     /// cref="T:IDictionary{TKey,TValue}"/>.</value>
-    ICollection IDictionary.Keys
-    {
-        get { return GetKeys(); }
-    }
+    ICollection IDictionary.Keys => GetKeys();
 
     /// <summary>
     /// Removes the element with the specified key from the <see
@@ -1425,10 +1402,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:ICollection"/> containing the values in the <see
     /// cref="T:IDictionary"/>.</value>
-    ICollection IDictionary.Values
-    {
-        get { return GetValues(); }
-    }
+    ICollection IDictionary.Values => GetValues();
 
     /// <summary>
     /// Gets or sets the value associated with the specified key.
@@ -1468,7 +1442,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
             if (!(key is TKey)) throw new ArgumentException(SR.ConcurrentDictionary_TypeOfKeyIncorrect);
             if (!(value is TValue)) throw new ArgumentException(SR.ConcurrentDictionary_TypeOfValueIncorrect);
 
-            ((ConcurrentDictionary<TKey, TValue>)this)[(TKey)key] = (TValue)value;
+            this[(TKey)key] = (TValue)value;
         }
     }
 
@@ -1557,23 +1531,14 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// (thread safe); otherwise, false. For <see
     /// cref="T:ConcurrentDictionary{TKey,TValue}"/>, this property always
     /// returns false.</value>
-    bool ICollection.IsSynchronized
-    {
-        get { return false; }
-    }
+    bool ICollection.IsSynchronized => false;
 
     /// <summary>
     /// Gets an object that can be used to synchronize access to the <see
     /// cref="T:ICollection"/>. This property is not supported.
     /// </summary>
     /// <exception cref="T:NotSupportedException">The SyncRoot property is not supported.</exception>
-    object ICollection.SyncRoot
-    {
-        get
-        {
-            throw new NotSupportedException(SR.ConcurrentCollection_SyncRoot_NotSupported);
-        }
-    }
+    object ICollection.SyncRoot => throw new NotSupportedException(SR.ConcurrentCollection_SyncRoot_NotSupported);
 
     #endregion
 
@@ -1742,10 +1707,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <summary>
     /// The number of concurrent writes for which to optimize by default.
     /// </summary>
-    private static int DefaultConcurrencyLevel
-    {
-        get { return PlatformHelper.ProcessorCount; }
-    }
+    private static int DefaultConcurrencyLevel => PlatformHelper.ProcessorCount;
 
     /// <summary>
     /// Acquires all locks for this hash table, and increments locksAcquired by the number
@@ -1905,25 +1867,13 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
             _enumerator = dictionary.GetEnumerator();
         }
 
-        public DictionaryEntry Entry
-        {
-            get { return new DictionaryEntry(_enumerator.Current.Key!, _enumerator.Current.Value); }
-        }
+        public DictionaryEntry Entry => new(_enumerator.Current.Key!, _enumerator.Current.Value);
 
-        public object Key
-        {
-            get { return _enumerator.Current.Key; }
-        }
+        public object Key => _enumerator.Current.Key;
 
-        public object Value
-        {
-            get { return _enumerator.Current.Value; }
-        }
+        public object Value => _enumerator.Current.Value;
 
-        public object Current
-        {
-            get { return Entry; }
-        }
+        public object Current => Entry;
 
         public bool MoveNext()
         {

@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-
-namespace System.Collections.Generic;
+namespace ConcurrentDictionary.Tests.System.Collections.Generic;
 #if NET20 || NET30 || NET35 || NET40 || PORTABLE
 /// <summary>
 /// Represents a generic read-only collection of key/value pairs.
