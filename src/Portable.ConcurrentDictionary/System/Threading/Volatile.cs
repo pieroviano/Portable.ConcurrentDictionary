@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace ConcurrentDictionary.Tests.System.Threading;
+namespace System.Threading;
 #if !NETSTANDARD1_0 && !PROFILE111
 internal static class Volatile
 {

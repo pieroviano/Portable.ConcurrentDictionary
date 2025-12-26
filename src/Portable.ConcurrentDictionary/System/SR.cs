@@ -1,5 +1,5 @@
 
-namespace ConcurrentDictionary.Tests.System;
+namespace System;
 
 /// <summary>
 /// Copied from corefx\src\System.Collections.Concurrent\src\Resources

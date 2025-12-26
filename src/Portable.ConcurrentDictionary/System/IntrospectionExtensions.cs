@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace ConcurrentDictionary.Tests.System;
+namespace System;
 
 /// <summary>
 /// https://github.com/castleproject/Core/blob/netcore/src/Castle.Core/Compatibility/IntrospectionExtensions.cs

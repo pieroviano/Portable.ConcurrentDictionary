@@ -23,9 +23,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Volatile = ConcurrentDictionary.Tests.System.Threading.Volatile;
+using Volatile = System.Threading.Volatile;
 
-namespace ConcurrentDictionary.Tests.System.Collections.Concurrent;
+namespace System.Collections.Concurrent;
 
 /// <summary>
 /// Represents a thread-safe collection of keys and values.
