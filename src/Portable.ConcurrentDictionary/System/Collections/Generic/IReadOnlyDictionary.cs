@@ -11,7 +11,7 @@ namespace ConcurrentDictionary.Tests.System.Collections.Generic;
 /// </typeparam>
 //[DefaultMember("Item")]
 public interface IReadOnlyDictionary<TKey, TValue> 
-    : IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable
+    : IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable
 {
         
     /// <summary>
@@ -75,6 +75,6 @@ public interface IReadOnlyDictionary<TKey, TValue>
     /// <exception cref="ArgumentNullException">
     /// key is null.
     /// </exception>
-    bool TryGetValue(TKey key, out TValue value);
+    bool TryGetValue(TKey key, out TValue? value);
 }
 #endif
