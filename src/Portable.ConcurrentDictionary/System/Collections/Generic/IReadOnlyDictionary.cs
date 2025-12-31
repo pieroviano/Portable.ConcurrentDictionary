@@ -80,6 +80,6 @@ public interface IReadOnlyDictionary<TKey, TValue>
     /// <exception cref="ArgumentNullException">
     /// key is null.
     /// </exception>
-    bool TryGetValue(TKey key, out TValue? value);
+    bool TryGetValue(TKey key, out TValue value);
 }
 #endif
