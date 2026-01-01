@@ -1,11 +1,11 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>This is a .NET Standard 1.0, .NET 2.0, .NET 3.5, Silverlight 5.0 and Windows Phone Silverlight 8.0 &amp; 8.1 backport from System.Collections.Concurrent.ConcurrentDictionary as defined in .NET Core</Description>
     <AssemblyTitle>Portable.ConcurrentDictionary</AssemblyTitle>
     <Authors>Stef Heyenrath</Authors>
     <Copyright>Copyright (c) Stef Heyenrath 2016-2019</Copyright>
-    <TargetFrameworks>netstandard1.0;net20;net35;portable-net45+win8+wpa81;portable-net403+sl5+win8+wpa81+wp8</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;net20;net35</TargetFrameworks>
     <AssemblyName>Portable.ConcurrentDictionary</AssemblyName>
     <AssemblyOriginatorKeyFile>Portable.ConcurrentDictionary.key</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
