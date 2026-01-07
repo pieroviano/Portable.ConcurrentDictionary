@@ -38,7 +38,7 @@ namespace System.Collections.Concurrent;
 /// </remarks>
 [DebuggerTypeProxy(typeof(IDictionaryDebugView<,>))]
 [DebuggerDisplay("Count = {Count}")]
-public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary, IReadOnlyDictionary<TKey, TValue>
+public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue?>, IDictionary, IReadOnlyDictionary<TKey, TValue?>
 {
     /// <summary>
     /// Tables that hold the internal state of the ConcurrentDictionary
@@ -157,7 +157,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// (Nothing in Visual Basic).</exception>
     /// <exception cref="T:ArgumentException"><paramref name="collection"/> contains one or more
     /// duplicate keys.</exception>
-    public ConcurrentDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection) : this(collection, EqualityComparer<TKey>.Default) { }
+    public ConcurrentDictionary(IEnumerable<KeyValuePair<TKey, TValue?>> collection) : this(collection, EqualityComparer<TKey>.Default) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConcurrentDictionary{TKey,TValue}"/>
@@ -187,7 +187,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// (Nothing in Visual Basic). -or-
     /// <paramref name="comparer"/> is a null reference (Nothing in Visual Basic).
     /// </exception>
-    public ConcurrentDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
+    public ConcurrentDictionary(IEnumerable<KeyValuePair<TKey, TValue?>> collection, IEqualityComparer<TKey> comparer)
         : this(comparer)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
@@ -217,7 +217,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </exception>
     /// <exception cref="T:ArgumentException"><paramref name="collection"/> contains one or more duplicate keys.</exception>
     public ConcurrentDictionary(
-        int concurrencyLevel, IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
+        int concurrencyLevel, IEnumerable<KeyValuePair<TKey, TValue?>> collection, IEqualityComparer<TKey> comparer)
         : this(concurrencyLevel, DefaultCapacity, false, comparer)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
@@ -226,7 +226,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
         InitializeFromCollection(collection);
     }
 
-    private void InitializeFromCollection(IEnumerable<KeyValuePair<TKey, TValue>> collection)
+    private void InitializeFromCollection(IEnumerable<KeyValuePair<TKey, TValue?>> collection)
     {
         foreach (var pair in collection)
         {
@@ -314,7 +314,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// (Nothing in Visual Basic).</exception>
     /// <exception cref="T:OverflowException">The <see cref="ConcurrentDictionary{TKey, TValue}"/>
     /// contains too many elements.</exception>
-    public bool TryAdd(TKey key, TValue value)
+    public bool TryAdd(TKey key, TValue? value)
     {
         if (key == null) ThrowKeyNullException();
         return TryAddInternal(key, _comparer.GetHashCode(key), value, false, true, out _);
@@ -392,7 +392,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
                     {
                         if (matchValue)
                         {
-                            var valuesMatch = oldValue != null && EqualityComparer<TValue>.Default.Equals(oldValue, curr._value);
+                            var valuesMatch = oldValue != null && EqualityComparer<TValue?>.Default.Equals(oldValue, curr._value);
                             if (!valuesMatch)
                             {
                                 value = default(TValue);
@@ -507,10 +507,10 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// false.</returns>
     /// <exception cref="T:ArgumentNullException"><paramref name="key"/> is a null
     /// reference.</exception>
-    private bool TryUpdateInternal(TKey key, int hashcode, TValue newValue, TValue? comparisonValue)
+    private bool TryUpdateInternal(TKey key, int hashcode, TValue? newValue, TValue? comparisonValue)
     {
         Debug.Assert(_comparer.GetHashCode(key) == hashcode);
-        IEqualityComparer<TValue> valueComparer = EqualityComparer<TValue>.Default;
+        IEqualityComparer<TValue?> valueComparer = EqualityComparer<TValue?>.Default;
         while (true)
         {
             var tables = _tables;
@@ -610,7 +610,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// cref="T:System.Collections.ICollection"/>
     /// is greater than the available space from <paramref name="index"/> to the end of the destination
     /// <paramref name="array"/>.</exception>
-    void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
+    void ICollection<KeyValuePair<TKey, TValue?>>.CopyTo(KeyValuePair<TKey, TValue?>[] array, int index)
     {
         if (array == null) throw new ArgumentNullException(nameof(array));
         if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), SR.ConcurrentDictionary_IndexIsNegative);
@@ -646,7 +646,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <returns>A new array containing a snapshot of key and value pairs copied from the <see
     /// cref="ConcurrentDictionary{TKey,TValue}"/>.</returns>
-    public KeyValuePair<TKey, TValue>[] ToArray()
+    public KeyValuePair<TKey, TValue?>[] ToArray()
     {
         var locksAcquired = 0;
         try
@@ -663,10 +663,10 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
 
             if (count == 0)
             {
-                return ArrayHelper.Empty<TKey, TValue>();
+                return ArrayHelper.Empty<TKey, TValue?>();
             }
 
-            var array = new KeyValuePair<TKey, TValue>[count];
+            var array = new KeyValuePair<TKey, TValue?>[count];
             CopyToPairs(array, 0);
             return array;
         }
@@ -681,14 +681,14 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// 
     /// Important: the caller must hold all locks in _locks before calling CopyToPairs.
     /// </summary>
-    private void CopyToPairs(KeyValuePair<TKey, TValue>[] array, int index)
+    private void CopyToPairs(KeyValuePair<TKey, TValue?>[] array, int index)
     {
         var buckets = _tables._buckets;
         for (var i = 0; i < buckets.Length; i++)
         {
             for (var current = buckets[i]; current != null; current = current._next)
             {
-                array[index] = new KeyValuePair<TKey, TValue>(current._key, current._value);
+                array[index] = new KeyValuePair<TKey, TValue?>(current._key, current._value);
                 index++; //this should never flow, CopyToPairs is only called when there's no overflow risk
             }
         }
@@ -725,7 +725,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
         {
             for (var current = buckets[i]; current != null; current = current._next)
             {
-                array[index] = new KeyValuePair<TKey, TValue>(current._key, current._value);
+                array[index] = new KeyValuePair<TKey, TValue?>(current._key, current._value);
                 index++; //this should never flow, CopyToObjects is only called when there's no overflow risk
             }
         }
@@ -740,7 +740,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// of the dictionary.  The contents exposed through the enumerator may contain modifications
     /// made to the dictionary after <see cref="GetEnumerator"/> was called.
     /// </remarks>
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+    public IEnumerator<KeyValuePair<TKey, TValue?>> GetEnumerator()
     {
         var buckets = _tables._buckets;
 
@@ -751,7 +751,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
 
             while (current != null)
             {
-                yield return new KeyValuePair<TKey, TValue>(current._key, current._value);
+                yield return new KeyValuePair<TKey, TValue?>(current._key, current._value);
                 current = current._next;
             }
         }
@@ -762,7 +762,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// If key exists, we always return false; and if updateIfExists == true we force update with value;
     /// If key doesn't exist, we always add value and return true;
     /// </summary>
-    private bool TryAddInternal(TKey key, int hashcode, TValue value, bool updateIfExists, bool acquireLock, out TValue resultingValue)
+    private bool TryAddInternal(TKey key, int hashcode, TValue? value, bool updateIfExists, bool acquireLock, out TValue? resultingValue)
     {
         Debug.Assert(_comparer.GetHashCode(key) == hashcode);
         while (true)
@@ -884,7 +884,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <exception cref="T:KeyNotFoundException">The property is retrieved and
     /// <paramref name="key"/>
     /// does not exist in the collection.</exception>
-    public TValue this[TKey key]
+    public TValue? this[TKey key]
     {
         get
         {
@@ -972,7 +972,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <returns>The value for the key.  This will be either the existing value for the key if the
     /// key is already in the dictionary, or the new value for the key as returned by valueFactory
     /// if the key was not in the dictionary.</returns>
-    public TValue? GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
+    public TValue? GetOrAdd(TKey key, Func<TKey, TValue?> valueFactory)
     {
         if (key == null) ThrowKeyNullException();
         if (valueFactory == null) throw new ArgumentNullException(nameof(valueFactory));
@@ -1030,7 +1030,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// elements.</exception>
     /// <returns>The new value for the key.  This will be either the result of addValueFactory (if the key was 
     /// absent) or the result of updateValueFactory (if the key was present).</returns>
-    public TValue AddOrUpdate(TKey key, Func<TKey, TValue> addValueFactory, Func<TKey, TValue?, TValue> updateValueFactory)
+    public TValue? AddOrUpdate(TKey key, Func<TKey, TValue?> addValueFactory, Func<TKey, TValue?, TValue> updateValueFactory)
     {
         if (key == null) ThrowKeyNullException();
         if (addValueFactory == null) throw new ArgumentNullException(nameof(addValueFactory));
@@ -1076,7 +1076,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// elements.</exception>
     /// <returns>The new value for the key.  This will be either the value of addValue (if the key was 
     /// absent) or the result of updateValueFactory (if the key was present).</returns>
-    public TValue AddOrUpdate(TKey key, TValue addValue, Func<TKey, TValue?, TValue> updateValueFactory)
+    public TValue? AddOrUpdate(TKey key, TValue? addValue, Func<TKey, TValue?, TValue?> updateValueFactory)
     {
         if (key == null) ThrowKeyNullException();
         if (updateValueFactory == null) throw new ArgumentNullException(nameof(updateValueFactory));
@@ -1152,7 +1152,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <exception cref="T:ArgumentException">
     /// An element with the same key already exists in the <see
     /// cref="ConcurrentDictionary{TKey,TValue}"/>.</exception>
-    void IDictionary<TKey, TValue>.Add(TKey key, TValue value)
+    void IDictionary<TKey, TValue?>.Add(TKey key, TValue? value)
     {
         if (!TryAdd(key, value))
         {
@@ -1172,7 +1172,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </returns>
     /// <exception cref="T:ArgumentNullException"><paramref name="key"/> is a null reference
     /// (Nothing in Visual Basic).</exception>
-    bool IDictionary<TKey, TValue>.Remove(TKey key)
+    bool IDictionary<TKey, TValue?>.Remove(TKey key)
     {
         return TryRemove(key, out _);
     }
@@ -1191,7 +1191,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:IEnumerable{T}"/> containing the keys of
     /// the <see cref="T:IReadOnlyDictionary{TKey,TValue}"/>.</value>
-    IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => GetKeys();
+    IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue?>.Keys => GetKeys();
 
     /// <summary>
     /// Gets a collection containing the values in the <see
@@ -1200,7 +1200,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <value>An <see cref="T:ICollection{T}"/> containing the values in
     /// the
     /// <see cref="T:Dictionary{TKey,TValue}"/>.</value>
-    public ICollection<TValue> Values => GetValues();
+    public ICollection<TValue?> Values => GetValues();
 
     /// <summary>
     /// Gets an <see cref="T:IEnumerable{T}"/> containing the values
@@ -1208,7 +1208,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     /// <value>An <see cref="T:IEnumerable{T}"/> containing the
     /// values in the <see cref="T:IReadOnlyDictionary{TKey,TValue}"/>.</value>
-    IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => GetValues();
+    IEnumerable<TValue?> IReadOnlyDictionary<TKey, TValue?>.Values => GetValues();
 
     #endregion
 
@@ -1228,9 +1228,9 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// contains too many elements.</exception>
     /// <exception cref="T:ArgumentException">An element with the same key already exists in the
     /// <see cref="T:Dictionary{TKey,TValue}"/></exception>
-    void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> keyValuePair)
+    void ICollection<KeyValuePair<TKey, TValue?>>.Add(KeyValuePair<TKey, TValue?> keyValuePair)
     {
-        ((IDictionary<TKey, TValue>)this).Add(keyValuePair.Key, keyValuePair.Value);
+        ((IDictionary<TKey, TValue?>)this).Add(keyValuePair.Key, keyValuePair.Value);
     }
 
     /// <summary>
@@ -1242,13 +1242,13 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// cref="T:System.Collections.Generic.ICollection{TValue}"/>.</param>
     /// <returns>true if the <paramref name="keyValuePair"/> is found in the <see
     /// cref="T:System.Collections.Generic.ICollection{TKey,TValue}"/>; otherwise, false.</returns>
-    bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> keyValuePair)
+    bool ICollection<KeyValuePair<TKey, TValue?>>.Contains(KeyValuePair<TKey, TValue?> keyValuePair)
     {
         if (!TryGetValue(keyValuePair.Key, out var value))
         {
             return false;
         }
-        return EqualityComparer<TValue>.Default.Equals(value, keyValuePair.Value);
+        return EqualityComparer<TValue?>.Default.Equals(value, keyValuePair.Value);
     }
 
     /// <summary>
@@ -1258,7 +1258,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// read-only; otherwise, false. For <see
     /// cref="T:Dictionary{TKey,TValue}"/>, this property always returns
     /// false.</value>
-    bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => false;
+    bool ICollection<KeyValuePair<TKey, TValue?>>.IsReadOnly => false;
 
     /// <summary>
     /// Removes a key and value from the dictionary.
@@ -1271,7 +1271,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// found and removed; otherwise, false.</returns>
     /// <exception cref="T:ArgumentNullException">The Key property of <paramref
     /// name="keyValuePair"/> is a null reference (Nothing in Visual Basic).</exception>
-    bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> keyValuePair)
+    bool ICollection<KeyValuePair<TKey, TValue?>>.Remove(KeyValuePair<TKey, TValue?> keyValuePair)
     {
         if (keyValuePair.Key == null) throw new ArgumentNullException(SR.ConcurrentDictionary_ItemKeyIsNull);
         return TryRemoveInternal(keyValuePair.Key, out _, true, keyValuePair.Value);
@@ -1331,7 +1331,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
             throw new ArgumentException(SR.ConcurrentDictionary_TypeOfValueIncorrect);
         }
 
-        ((IDictionary<TKey, TValue>)this).Add((TKey)key, typedValue);
+        ((IDictionary<TKey, TValue?>)this).Add((TKey)key, typedValue);
     }
 
     /// <summary>
@@ -1502,11 +1502,11 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
 
             // To be consistent with the behavior of ICollection.CopyTo() in Dictionary<TKey,TValue>,
             // we recognize three types of target arrays:
-            //    - an array of KeyValuePair<TKey, TValue> structs
+            //    - an array of KeyValuePair<TKey, TValue?> structs
             //    - an array of DictionaryEntry structs
             //    - an array of objects
 
-            if (array is KeyValuePair<TKey, TValue>[] pairs)
+            if (array is KeyValuePair<TKey, TValue?>[] pairs)
             {
                 CopyToPairs(pairs, index);
                 return;
@@ -1818,13 +1818,13 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// <summary>
     /// Gets a collection containing the values in the dictionary.
     /// </summary>
-    private ReadOnlyCollection<TValue> GetValues()
+    private ReadOnlyCollection<TValue?> GetValues()
     {
         var locksAcquired = 0;
         try
         {
             AcquireAllLocks(ref locksAcquired);
-            var values = new List<TValue>();
+            var values = new List<TValue?>();
 
             for (var i = 0; i < _tables._buckets.Length; i++)
             {
@@ -1836,7 +1836,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
                 }
             }
 
-            return new ReadOnlyCollection<TValue>(values);
+            return new ReadOnlyCollection<TValue?>(values);
         }
         finally
         {
@@ -1850,11 +1850,11 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     private sealed class Node
     {
         internal readonly TKey _key;
-        internal TValue _value;
+        internal TValue? _value;
         internal volatile Node _next;
         internal readonly int _hashcode;
 
-        internal Node(TKey key, TValue value, int hashcode, Node next)
+        internal Node(TKey key, TValue? value, int hashcode, Node next)
         {
             _key = key;
             _value = value;
@@ -1869,9 +1869,9 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDi
     /// </summary>
     private sealed class DictionaryEnumerator : IDictionaryEnumerator
     {
-        readonly IEnumerator<KeyValuePair<TKey, TValue>> _enumerator; // Enumerator over the dictionary.
+        readonly IEnumerator<KeyValuePair<TKey, TValue?>> _enumerator; // Enumerator over the dictionary.
 
-        internal DictionaryEnumerator(ConcurrentDictionary<TKey, TValue> dictionary)
+        internal DictionaryEnumerator(ConcurrentDictionary<TKey, TValue?> dictionary)
         {
             _enumerator = dictionary.GetEnumerator();
         }
