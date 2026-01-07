@@ -15,7 +15,7 @@ namespace System.Collections.Generic;
 /// The type of values in the read-only dictionary.
 /// </typeparam>
 //[DefaultMember("Item")]
-public interface IReadOnlyDictionary<TKey, TValue?> 
+public interface IReadOnlyDictionary<TKey, TValue> 
     : IReadOnlyCollection<KeyValuePair<TKey, TValue?>>, IEnumerable
 {
         
@@ -34,7 +34,7 @@ public interface IReadOnlyDictionary<TKey, TValue?>
     /// <exception cref="KeyNotFoundException">
     /// The property is retrieved and key is not found.
     /// </exception>
-    TValue this[TKey key] { get; }
+    TValue? this[TKey key] { get; }
 
     /// <summary>
     /// Gets an enumerable collection that contains the keys in the read-only dictionary.
@@ -80,6 +80,6 @@ public interface IReadOnlyDictionary<TKey, TValue?>
     /// <exception cref="ArgumentNullException">
     /// key is null.
     /// </exception>
-    bool TryGetValue(TKey key, out TValue value);
+    bool TryGetValue(TKey key, out TValue? value);
 }
 #endif

@@ -13,7 +13,7 @@ namespace System.Collections.Generic;
 #else
 public interface IReadOnlyCollection<T>
 #endif
-    : IEnumerable<T>, IEnumerable
+    : IEnumerable<T?>, IEnumerable
 {
 
     /// <summary>

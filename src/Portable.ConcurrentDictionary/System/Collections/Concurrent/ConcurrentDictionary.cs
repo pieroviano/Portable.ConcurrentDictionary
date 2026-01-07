@@ -509,7 +509,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue?>, ID
     /// false.</returns>
     /// <exception cref="T:ArgumentNullException"><paramref name="key"/> is a null
     /// reference.</exception>
-    private bool TryUpdateInternal(TKey key, int hashcode, TValue newValue, TValue? comparisonValue)
+    private bool TryUpdateInternal(TKey key, int hashcode, TValue? newValue, TValue? comparisonValue)
     {
         Debug.Assert(_comparer.GetHashCode(key) == hashcode);
         IEqualityComparer<TValue?> valueComparer = EqualityComparer<TValue?>.Default;
@@ -1078,7 +1078,7 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue?>, ID
     /// elements.</exception>
     /// <returns>The new value for the key.  This will be either the value of addValue (if the key was 
     /// absent) or the result of updateValueFactory (if the key was present).</returns>
-    public TValue? AddOrUpdate(TKey key, TValue addValue, Func<TKey, TValue?, TValue> updateValueFactory)
+    public TValue? AddOrUpdate(TKey key, TValue? addValue, Func<TKey, TValue?, TValue?> updateValueFactory)
     {
         if (key == null) ThrowKeyNullException();
         if (updateValueFactory == null) throw new ArgumentNullException(nameof(updateValueFactory));
