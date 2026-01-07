@@ -15,8 +15,8 @@ namespace System.Collections.Generic;
 /// The type of values in the read-only dictionary.
 /// </typeparam>
 //[DefaultMember("Item")]
-public interface IReadOnlyDictionary<TKey, TValue> 
-    : IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable
+public interface IReadOnlyDictionary<TKey, TValue?> 
+    : IReadOnlyCollection<KeyValuePair<TKey, TValue?>>, IEnumerable
 {
         
     /// <summary>
@@ -50,7 +50,7 @@ public interface IReadOnlyDictionary<TKey, TValue>
     /// <returns>
     /// An enumerable collection that contains the values in the read-only dictionary.
     /// </returns>
-    IEnumerable<TValue> Values { get; }
+    IEnumerable<TValue?> Values { get; }
 
     /// <summary>
     /// Determines whether the read-only dictionary contains an element that has the specified key.
