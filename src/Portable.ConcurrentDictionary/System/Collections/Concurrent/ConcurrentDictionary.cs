@@ -92,10 +92,10 @@ public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue?>, ID
         //
         var valueType = typeof(TValue);
         var isAtomic =
-#if NET20 || NET30 || NET35
+#if NET20 || NET30 || NET35 || NET40
             !valueType.IsValueType ||
 #else
-                !valueType.GetTypeInfo().IsValueType ||
+            !valueType.GetTypeInfo().IsValueType ||
 #endif
             valueType == typeof(bool) ||
             valueType == typeof(char) ||
