@@ -13,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Portable.ConcurrentDictionary\Portable.ConcurrentDictionary.csproj">
-      <Aliases>PortableConcurrentDictionary</Aliases>
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\Portable.ConcurrentDictionary.Library\Portable.ConcurrentDictionary.csproj" Aliases="PortableConcurrentDictionary"/>
   </ItemGroup>
 
 </Project>
