@@ -1,18 +1,17 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Xunit;
-
 using IntegerConcurrentDictionary = System.Collections.Concurrent.ConcurrentDictionary<int, int>;
 
-namespace Portable.ConcurrentDictionary.Tests
+namespace ConcurrentDictionary.Tests
 {
     public class ConcurrentDictionaryTests
     {
@@ -214,8 +213,7 @@ namespace Portable.ConcurrentDictionary.Tests
                         {
                             for (var j = 0; j < readsPerThread; j++)
                             {
-                                var val = 0;
-                                if (dict.TryGetValue(j, out val))
+                                if (dict.TryGetValue(j, out var val))
                                 {
                                     Assert.Equal(0, j % 2);
                                     Assert.Equal(j, val);
@@ -243,7 +241,8 @@ namespace Portable.ConcurrentDictionary.Tests
         public void TestRemove1(int cLevel, int threads, int removesPerThread)
         {
             var dict = new IntegerConcurrentDictionary(cLevel, 1);
-            var methodparameters = string.Format("* TestRemove1(cLevel={0}, threads={1}, removesPerThread={2})", cLevel, threads, removesPerThread);
+            var methodparameters =
+                $"* TestRemove1(cLevel={cLevel}, threads={threads}, removesPerThread={removesPerThread})";
             var N = 2 * threads * removesPerThread;
 
             for (var i = 0; i < N; i++) dict[i] = -i;
@@ -262,9 +261,8 @@ namespace Portable.ConcurrentDictionary.Tests
                         {
                             for (var j = 0; j < removesPerThread; j++)
                             {
-                                int value;
                                 var key = 2 * (ii + j * threads);
-                                Assert.True(dict.TryRemove(key, out value), "Failed to remove an element! " + methodparameters);
+                                Assert.True(dict.TryRemove(key, out var value), "Failed to remove an element! " + methodparameters);
 
                                 Assert.Equal(-key, value);
                             }
@@ -329,8 +327,7 @@ namespace Portable.ConcurrentDictionary.Tests
                         {
                             for (var key = 0; key < removesPerThread; key++)
                             {
-                                int value;
-                                if (dict.TryRemove(key, out value))
+                                if (dict.TryRemove(key, out var value))
                                 {
                                     seen[thread][key] = true;
 
@@ -348,8 +345,8 @@ namespace Portable.ConcurrentDictionary.Tests
             for (var i = 0; i < removesPerThread; i++)
             {
                 Assert.False(seen[0][i] == seen[1][i],
-                    string.Format("> FAILED. Two threads appear to have removed the same element. TestRemove2(removesPerThread={0})", removesPerThread)
-                    );
+                    $"> FAILED. Two threads appear to have removed the same element. TestRemove2(removesPerThread={removesPerThread})"
+                );
             }
         }
 
@@ -535,7 +532,7 @@ namespace Portable.ConcurrentDictionary.Tests
             // "TestConstructor:  FAILED.  Constructor didn't throw ANE when null IEqualityComparer is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => new IntegerConcurrentDictionary((ICollection<KeyValuePair<int, int>>)null, EqualityComparer<int>.Default));
+               () => new IntegerConcurrentDictionary(null, EqualityComparer<int>.Default));
             // "TestConstructor:  FAILED.  Constructor didn't throw ANE when null collection and non null IEqualityComparer passed");
 
             Assert.Throws<ArgumentNullException>(
@@ -579,26 +576,25 @@ namespace Portable.ConcurrentDictionary.Tests
             //  "TestExceptions:  FAILED.  TryAdd didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.ContainsKey(null));
+               () => dictionary.ContainsKey(null!));
             // "TestExceptions:  FAILED.  Contains didn't throw ANE when null key is passed");
 
-            int item;
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.TryRemove(null, out item));
+               () => dictionary.TryRemove(null, out _));
             //  "TestExceptions:  FAILED.  TryRemove didn't throw ANE when null key is passed");
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.TryGetValue(null, out item));
+               () => dictionary.TryGetValue(null!, out _));
             // "TestExceptions:  FAILED.  TryGetValue didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => { var x = dictionary[null]; });
+               () => { var x = dictionary[null!]; });
             // "TestExceptions:  FAILED.  this[] didn't throw ANE when null key is passed");
             Assert.Throws<KeyNotFoundException>(
                () => { var x = dictionary["1"]; });
             // "TestExceptions:  FAILED.  this[] TryGetValue didn't throw KeyNotFoundException!");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary[null] = 1);
+               () => dictionary[null!] = 1);
             // "TestExceptions:  FAILED.  this[] didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentNullException>(
@@ -656,7 +652,7 @@ namespace Portable.ConcurrentDictionary.Tests
                 var value = (int)entry.Value;
                 var expectedValue = int.Parse(key);
                 Assert.True(value == expectedValue,
-                    string.Format("TestIDictionary:  FAILED.  Unexpected value returned from GetEnumerator, expected {0}, actual {1}", value, expectedValue));
+                    $"TestIDictionary:  FAILED.  Unexpected value returned from GetEnumerator, expected {value}, actual {expectedValue}");
                 count++;
             }
 
@@ -684,7 +680,7 @@ namespace Portable.ConcurrentDictionary.Tests
         {
             IDictionary dictionary = new ConcurrentDictionary<string, int>();
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Add(null, 1));
+               () => dictionary.Add(null!, 1));
             // "TestIDictionary:  FAILED.  Add didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentException>(
@@ -696,20 +692,20 @@ namespace Portable.ConcurrentDictionary.Tests
             // "TestIDictionary:  FAILED.  Add didn't throw AE when incorrect value type is passed");
 
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Contains(null));
+               () => dictionary.Contains(null!));
             // "TestIDictionary:  FAILED.  Contain didn't throw ANE when null key is passed");
 
             //Test Remove
             Assert.Throws<ArgumentNullException>(
-               () => dictionary.Remove(null));
+               () => dictionary.Remove(null!));
             // "TestIDictionary:  FAILED.  Remove didn't throw ANE when null key is passed");
 
             //Test this[]
             Assert.Throws<ArgumentNullException>(
-               () => { var val = dictionary[null]; });
+               () => { var val = dictionary[null!]; });
             // "TestIDictionary:  FAILED.  this[] getter didn't throw ANE when null key is passed");
             Assert.Throws<ArgumentNullException>(
-               () => dictionary[null] = 0);
+               () => dictionary[null!] = 0);
             // "TestIDictionary:  FAILED.  this[] setter didn't throw ANE when null key is passed");
 
             Assert.Throws<ArgumentException>(
@@ -757,7 +753,7 @@ namespace Portable.ConcurrentDictionary.Tests
 
             Assert.Throws<NotSupportedException>(() => { var obj = dictionary.SyncRoot; });
             // "TestICollection:  FAILED.  SyncRoot property didn't throw");
-            Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null, 0));
+            Assert.Throws<ArgumentNullException>(() => dictionary.CopyTo(null!, 0));
             // "TestICollection:  FAILED.  CopyTo didn't throw ANE when null Array is passed");
             Assert.Throws<ArgumentOutOfRangeException>(() => dictionary.CopyTo(new object[] { }, -1));
             // "TestICollection:  FAILED.  CopyTo didn't throw AORE when negative index passed");
@@ -780,8 +776,7 @@ namespace Portable.ConcurrentDictionary.Tests
             dictionary.Clear();
             Assert.Empty(dictionary);
 
-            int item;
-            Assert.False(dictionary.TryRemove(1, out item), "TestClear: FAILED.  TryRemove succeeded after Clear");
+            Assert.False(dictionary.TryRemove(1, out _), "TestClear: FAILED.  TryRemove succeeded after Clear");
             Assert.True(dictionary.IsEmpty, "TestClear: FAILED.  IsEmpty returned false after Clear");
         }
 
@@ -852,12 +847,12 @@ namespace Portable.ConcurrentDictionary.Tests
 
             Assert.True(numberSucceeded == tasks.Length, "One or more threads failed!");
             Assert.True(totalKeysUpdated == dictionary.Count,
-               string.Format("TestTryUpdate:  FAILED.  The updated keys count doesn't match the dictionary count, expected {0}, actual {1}", dictionary.Count, totalKeysUpdated));
+                $"TestTryUpdate:  FAILED.  The updated keys count doesn't match the dictionary count, expected {dictionary.Count}, actual {totalKeysUpdated}");
             foreach (var value in updatedKeys.Values)
             {
                 for (var i = 0; i < value.Keys.Count; i++)
                     Assert.True(dictionary[value.Keys[i]] == value.ThreadIndex,
-                       string.Format("TestTryUpdate:  FAILED.  The updated value doesn't match the thread index, expected {0} actual {1}", value.ThreadIndex, dictionary[value.Keys[i]]));
+                        $"TestTryUpdate:  FAILED.  The updated value doesn't match the thread index, expected {value.ThreadIndex} actual {dictionary[value.Keys[i]]}");
             }
 
             //test TryUpdate with non atomic values (intPtr > 8)
@@ -872,12 +867,14 @@ namespace Portable.ConcurrentDictionary.Tests
         {
             public int ThreadIndex;
             public bool Succeeded = true;
-            public List<string> Keys = new List<string>();
+            public readonly List<string> Keys = new List<string>();
         }
 
         private struct Struct16 : IEqualityComparer<Struct16>
         {
-            public long L1, L2;
+            public readonly long L1;
+            public readonly long L2;
+
             public Struct16(long l1, long l2)
             {
                 L1 = l1;
