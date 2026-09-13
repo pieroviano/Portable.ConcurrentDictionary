@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
+	  <NoWarn>NU1902;NU1903</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Portable.ConcurrentDictionary\Portable.ConcurrentDictionary.csproj">
-      <Aliases>PortableConcurrentDictionary</Aliases>
-    </ProjectReference>
+    <ProjectReference Include="..\..\src\Portable.ConcurrentDictionary.Library\Portable.ConcurrentDictionary.csproj" Aliases="PortableConcurrentDictionary"/>
   </ItemGroup>
 
 </Project>
